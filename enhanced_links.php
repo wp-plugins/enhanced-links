@@ -2,7 +2,7 @@
 /*
 Plugin Name: enhanced links
 Version: 2.0.1
-Plugin URI: http://www.vincentprat.info/wordpress/category/coding
+Plugin URI: http://www.vincentprat.info/wordpress/2006/04/13/wordpress-plugin-enhanced-links/
 Description: Allows to get better control over the links listing : edit the links.template.inc file if you're not satisfied with the formatting. 
 Author: Vincent Prat
 Author URI: http://www.vincentprat.info
