@@ -1,7 +1,7 @@
 === Enhanced Links ===
 Contributors: vprat
 Donate link: http://www.vincentprat.info/wordpress/2006/04/13/wordpress-plugin-enhanced-links/
-Tags: mail, users, list
+Tags: links, sidebar, 
 Requires at least: 1.5.0
 Tested up to: 2.1
 Stable tag: 2.0.1
