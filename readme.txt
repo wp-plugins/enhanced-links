@@ -4,7 +4,7 @@ Donate link: http://www.vincentprat.info/wordpress/2006/04/13/wordpress-plugin-e
 Tags: links, sidebar, navigation
 Requires at least: 1.5.0
 Tested up to: 2.1
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 
 A plugin for wordpress which allows you to list your links in a sexier way. Very useful when you have a great number of links and categories.
 

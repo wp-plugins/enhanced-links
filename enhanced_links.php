@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: enhanced links
-Version: 2.0.1
+Version: 2.0.2
 Plugin URI: http://www.vincentprat.info/wordpress/2006/04/13/wordpress-plugin-enhanced-links/
 Description: Allows to get better control over the links listing : edit the links.template.inc file if you're not satisfied with the formatting. 
 Author: Vincent Prat
@@ -78,7 +78,7 @@ function enh_links_get_categories() {
 		// For wordpress v2.1+
 		return $wpdb->get_results(
 			"SELECT cat_id, cat_name 
-			 FROM $wpdb->categories WHERE link_count>0");
+			 FROM $wpdb->categories WHERE link_count>0 ORDER BY cat_name");
 	}
 }
 
@@ -121,13 +121,13 @@ function enh_links_insert_html_categories($categories) {
  */
 function enh_links_insert_javascript($categories) {
 ?>
-<script language="javascript">
+<script type="text/javascript" language="javascript">
 	var js_categories = new Array(<?php echo count($categories); ?>);
 <?php
 	// Declare the JS variables
 	$i = 0;
 	foreach ($categories as $cat) {	
-		echo "\tjs_categories[$i] = new Array($cat->cat_id, '$cat->cat_name');\n";
+		echo "\tjs_categories[$i] = new Array($cat->cat_id, '$cat->cat_name', true);\n";
 		$i++;
 	}
 ?>
@@ -141,21 +141,30 @@ function enh_links_insert_javascript($categories) {
 		for (i=0; i<js_categories.length; i++) {
 			currentId = js_categories[i][0];
 			currentName = js_categories[i][1];
+			currentlyHidden = js_categories[i][2];
 			
 			currentButton = document.getElementById('categoryButton' + currentId);
 			currentContent = document.getElementById('categoryContent' + currentId);
 			
 			if (currentId==categoryId) {
-				// Expand this category								
-				if (currentButton.innerHTML != hideSymbol) {
+				// Expand this category	or contract it if it was expanded before
+				if (currentlyHidden) {
 					if (useScriptaculousEffects) {
 						new Effect.BlindDown(currentContent);
 					} else {
 						currentContent.style.display = 'block';
-					}
-				}
-				
-				currentButton.innerHTML = hideSymbol;
+					}				
+					currentButton.innerHTML = hideSymbol;
+					js_categories[i][2] = false;
+				} else {
+					if (useScriptaculousEffects) {
+						new Effect.BlindUp(currentContent);
+					} else {
+						currentContent.style.display = 'none';
+					}			
+					currentButton.innerHTML = showSymbol;
+					js_categories[i][2] = true;
+				} 
 			} else {
 				// Contract this category								
 				if (currentButton.innerHTML != showSymbol) {
@@ -164,8 +173,9 @@ function enh_links_insert_javascript($categories) {
 					} else {
 						currentContent.style.display = 'none';
 					}
-				}
-				currentButton.innerHTML = showSymbol;
+					currentButton.innerHTML = showSymbol;
+					js_categories[i][2] = true;
+				} 
 			}
 		}
 	}
