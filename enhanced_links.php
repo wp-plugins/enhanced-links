@@ -121,7 +121,7 @@ function enh_links_insert_html_categories($categories) {
  */
 function enh_links_insert_javascript($categories) {
 ?>
-<script type="text/javascript" language="javascript">
+<script type="text/javascript">
 	var js_categories = new Array(<?php echo count($categories); ?>);
 <?php
 	// Declare the JS variables
@@ -138,7 +138,7 @@ function enh_links_insert_javascript($categories) {
 		hideSymbol = <?php echo "'".HIDE_SYMBOL."'"; ?>;
 		useScriptaculousEffects = <?php if (USE_SCRIPTACULOUS_EFFECTS) echo "true"; else echo "false"; ?>;
 		
-		for (i=0; i<js_categories.length; i++) {
+		for (var i=0; i<js_categories.length; i++) {
 			currentId = js_categories[i][0];
 			currentName = js_categories[i][1];
 			currentlyHidden = js_categories[i][2];
