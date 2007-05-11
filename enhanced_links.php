@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: enhanced links
-Version: 2.0.2
+Version: 2.0.3
 Plugin URI: http://www.vincentprat.info/wordpress/2006/04/13/wordpress-plugin-enhanced-links/
-Description: Allows to get better control over the links listing : edit the links.template.inc file if you're not satisfied with the formatting. 
+Description: Allows to get better control over the links listing : edit the links.template.inc file if you're not satisfied with the formatting. Please donate if you are satisfied.
 Author: Vincent Prat
 Author URI: http://www.vincentprat.info
 */
@@ -41,7 +41,7 @@ define('SHOW_LINK_DESCRIPTION', false);
 
 // Set this to true if you want to use scriptaculous effects. You need to install the wp-scriptaculous
 // plugin. See there: http://www.silpstream.com/blog/
-define('USE_SCRIPTACULOUS_EFFECTS', false); 
+define('USE_SCRIPTACULOUS_EFFECTS', true); 
 
 
 
@@ -127,7 +127,8 @@ function enh_links_insert_javascript($categories) {
 	// Declare the JS variables
 	$i = 0;
 	foreach ($categories as $cat) {	
-		echo "\tjs_categories[$i] = new Array($cat->cat_id, '$cat->cat_name', true);\n";
+		$clean_cat_name = str_replace("'","\'",$cat->cat_name);
+		echo "\tjs_categories[$i] = new Array($cat->cat_id, '$clean_cat_name', true);\n";
 		$i++;
 	}
 ?>
