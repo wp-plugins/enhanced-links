@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: enhanced links
-Version: 2.0.3
-Plugin URI: http://www.vincentprat.info/wordpress/2006/04/13/wordpress-plugin-enhanced-links/
+Version: 2.0.3.1
+Plugin URI: http://enhanced-links.vincentprat.info
 Description: Allows to get better control over the links listing : edit the links.template.inc file if you're not satisfied with the formatting. Please donate if you are satisfied.
 Author: Vincent Prat
 Author URI: http://www.vincentprat.info
@@ -132,21 +132,17 @@ function enh_links_insert_javascript($categories) {
 		$i++;
 	}
 ?>
-
 	function expandCategory(categoryId) {
 		symbolBeforeCatName = <?php if (IS_SYMBOL_BEFORE) echo "true"; else echo "false"; ?>;
 		showSymbol = <?php echo "'".SHOW_SYMBOL."'"; ?>;
 		hideSymbol = <?php echo "'".HIDE_SYMBOL."'"; ?>;
 		useScriptaculousEffects = <?php if (USE_SCRIPTACULOUS_EFFECTS) echo "true"; else echo "false"; ?>;
-		
 		for (var i=0; i<js_categories.length; i++) {
 			currentId = js_categories[i][0];
 			currentName = js_categories[i][1];
 			currentlyHidden = js_categories[i][2];
-			
 			currentButton = document.getElementById('categoryButton' + currentId);
 			currentContent = document.getElementById('categoryContent' + currentId);
-			
 			if (currentId==categoryId) {
 				// Expand this category	or contract it if it was expanded before
 				if (currentlyHidden) {
