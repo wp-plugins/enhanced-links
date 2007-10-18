@@ -1,27 +1,60 @@
 === Enhanced Links ===
 Contributors: vprat
-Donate link: http://www.vincentprat.info/wordpress/2006/04/13/wordpress-plugin-enhanced-links/
+Donate link: http://enhanced-links.vincentprat.info
 Tags: links, sidebar, navigation
 Requires at least: 1.5.0
-Tested up to: 2.1
-Stable tag: 2.0.3
+Tested up to: 2.3
+Stable tag: 3.0
 
 A plugin for wordpress which allows you to list your links in a sexier way. Very useful when you have a great number of links and categories.
 
 == Description ==
 
-A plugin for wordpress which allows you to list your links in a sexier way. Very useful when you have a great number of links and categories. A sample use can be found on my [links page](http://www.vincentprat.info/wordpress/wp-content/themes/vprat2/links.php).
+A plugin for wordpress which allows you to list your links in a sexier way. Very useful when you have a great number of links and categories. A sample use can be found on my [links page](http://links.vincentprat.info).
 
-This plugin is available under the GPL license, which means that it's free. If you use it for a commercial web site, if you appreciate my efforts or if you want to encourage me to develop and maintain it, please consider making a donation using Paypal, a secured payment solution. You just need to click the button on the [plugin home page](http://www.vincentprat.info/wordpress/2006/04/13/wordpress-plugin-enhanced-links/) and follow the instructions.
+[plugin home page](http://enhanced-links.vincentprat.info).
+
+I need translators for the plugin, this is not a hard task, just a file to translate. Please contact me if you want to translate. Currently available in English and French.
+
+This plugin is available under the GPL license, which means that it's free. If you use it for a commercial web site, if you appreciate my efforts or if you want to encourage me to develop and maintain it, please consider making a donation using Paypal, a secured payment solution. You just need to click the button on the [plugin home page](http://enhanced-links.vincentprat.info) and follow the instructions.
 
 == Installation ==
 
-Just install the plugin in the wordpress "wp-content/plugins/enhanced_links/" directory, activate it and insert some little code into the side bar:
+Just install the plugin in the wordpress "wp-content/plugins/enhanced-links/" directory and activate it.
 
+Then you need to insert some code into the side bar; To show all the link categories, you can use the following:
 `<li><h2>Links</h2>`
-`<?php enh_links_show_enhanced_links(); ?>`
+`<?php enh_links_insert_categories(); ?>`
 `</li>`
 
-**Options**
+To show only some link categories (in this example, only the categories with id 2 and 3), you can use:
+`<li><h2>Links</h2>`
+`<?php enh_links_insert_category(2); ?>`
+`<?php enh_links_insert_category(3); ?>`
+`</li>`
 
-By editing the plugin file, you will be able to customize a little bit the listing of the links, for example if you want to show an image instead of the », or if you want to show the link description or if you want to use the possibilities offered by scriptaculous effects allows to smoothly slide in and out the link blocks.
+Note that you cannot list the same category twice on the same page!
+
+If you are using Widgets, you can insert the above code inside a PHP widget. Please refer to [ExecPHP Widgets](http://ottodestruct.com/blog/2006/04/09/fun-with-widgets/) documentation.
+
+If you want to list your links in a static page, you should use the [RunPHP plugin](http://www.nosq.com/blog/2006/01/runphp-plugin-for-wordpress/) and insert the above code in a static page.
+
+== Options ==
+
+Check-out the options page of the plugin to set some options.
+
+If you want to enable the scriptaculous or jQuery effects, you need to make sure that the corresponding javascript files are imported in your page. You can use the [wp-scriptaculous plugin](http://www.silpstream.com/blog/wp-scriptaculous/) in order to include scriptaculous automatically for you or do it manually in your theme (did not find any wp-jquery plugin).
+
+== Change log ==
+
+**v3.0**
+
+[+] Added support for internationalization with POT files.
+[+] Configuration page.
+[+] Support for Scriptaculous and jQuery.
+
+== Frequently Asked Questions ==
+
+= Where to find the translations for the plugin? =
+
+Visit the [repository for the locale files](http://enhanced-links-locales.vincentprat.info).
