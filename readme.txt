@@ -23,15 +23,15 @@ This plugin is available under the GPL license, which means that it's free. If y
 Just install the plugin in the wordpress "wp-content/plugins/enhanced-links/" directory and activate it.
 
 Then you need to insert some code into the side bar; To show all the link categories, you can use the following:
-`<li><h2>Links</h2>`
-`<?php enh_links_insert_categories(); ?>`
-`</li>`
+&lt;li&gt;&lt;h2&gt;Links&lt;/h2&gt;
+&lt;?php enh_links_insert_categories(); ?&gt;
+&lt;/li&gt;
 
 To show only some link categories (in this example, only the categories with id 2 and 3), you can use:
-`<li><h2>Links</h2>`
-`<?php enh_links_insert_category(2); ?>`
-`<?php enh_links_insert_category(3); ?>`
-`</li>`
+&lt;li&gt;&lt;h2&gt;Links&lt;/h2&gt;
+&lt;?php enh_links_insert_category(2); ?&gt;
+&lt;?php enh_links_insert_category(3); ?&gt;
+&lt;/li&gt;
 
 Note that you cannot list the same category twice on the same page!
 
@@ -58,3 +58,7 @@ If you want to enable the scriptaculous or jQuery effects, you need to make sure
 = Where to find the translations for the plugin? =
 
 Visit the [repository for the locale files](http://enhanced-links-locales.vincentprat.info).
+
+= I have a list of categories but they do not expand when I click on them =
+
+You probably have activated jQuery or scriptaculous effects but did not import the corresponding files in the page.
