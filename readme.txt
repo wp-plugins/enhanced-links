@@ -4,7 +4,7 @@ Donate link: http://enhanced-links.vincentprat.info
 Tags: links, sidebar, navigation
 Requires at least: 1.5.0
 Tested up to: 2.3
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 
 A plugin for wordpress which allows you to list your links in a sexier way. Very useful when you have a great number of links and categories.
 
