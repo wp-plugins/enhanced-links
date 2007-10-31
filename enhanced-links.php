@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: enhanced links
-Version: 3.0.2
+Version: 3.0.3
 Plugin URI: http://enhanced-links.vincentprat.info
 Description: Allows to get better control over the links listing. Please make a donation if you are satisfied.
 Author: Vincent Prat
@@ -26,7 +26,7 @@ Author URI: http://www.vincentprat.info
 */
 
 // Version of the plugin
-define('ENHANCED_LINKS_CURRENT_VERSION', '3.0.2' );
+define('ENHANCED_LINKS_CURRENT_VERSION', '3.0.3' );
 
 // i18n plugin domain 
 define('ENHANCED_LINKS_I18N_DOMAIN', 'enhanced-links');
@@ -324,7 +324,7 @@ function enh_links_insert_javascript() {
 				} 
 			} else {
 				// Contract this category								
-				if (currentButton.innerHTML != showSymbol) {
+				if (currentButton!=null && currentButton.innerHTML!=showSymbol) {
 					enh_links_hideContent(currentContent, effect);
 					currentButton.innerHTML = showSymbol;
 					enh_links_js_categories[i][2] = true;
