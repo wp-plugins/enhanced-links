@@ -324,7 +324,7 @@ function enh_links_insert_javascript() {
 				} 
 			} else {
 				// Contract this category								
-				if ((typeof currentButton=='undefined') || (currentButton.innerHTML!=showSymbol)) {
+				if ((typeof currentButton!='undefined') && (currentButton.innerHTML!=showSymbol)) {
 					enh_links_hideContent(currentContent, effect);
 					currentButton.innerHTML = showSymbol;
 					enh_links_js_categories[i][2] = true;
