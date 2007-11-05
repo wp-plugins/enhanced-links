@@ -306,11 +306,11 @@ function enh_links_insert_javascript() {
 		var effect = <?php echo "'" . enh_links_get_effect() . "'"; ?>;
 		
 		for (var i=0; i<enh_links_js_categories.length; i++) {
-			currentId = enh_links_js_categories[i][0];
-			currentName = enh_links_js_categories[i][1];
-			currentlyHidden = enh_links_js_categories[i][2];
-			currentButton = document.getElementById('categoryButton' + currentId);
-			currentContent = document.getElementById('categoryContent' + currentId);
+			var currentId = enh_links_js_categories[i][0];
+			var currentName = enh_links_js_categories[i][1];
+			var currentlyHidden = enh_links_js_categories[i][2];
+			var currentButton = document.getElementById('categoryButton' + currentId);
+			var currentContent = document.getElementById('categoryContent' + currentId);
 			if (currentId==categoryId) {
 				// Expand this category	or contract it if it was expanded before
 				if (currentlyHidden) {
@@ -324,7 +324,9 @@ function enh_links_insert_javascript() {
 				} 
 			} else {
 				// Contract this category								
-				if ((typeof currentButton!='undefined') && (currentButton.innerHTML!=showSymbol)) {
+				if ((typeof currentButton!='undefined') 
+						&& (currentButton!=null) 
+						&& (currentButton.innerHTML!=showSymbol)) {
 					enh_links_hideContent(currentContent, effect);
 					currentButton.innerHTML = showSymbol;
 					enh_links_js_categories[i][2] = true;
