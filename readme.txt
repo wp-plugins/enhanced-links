@@ -4,7 +4,7 @@ Donate link: http://enhanced-links.vincentprat.info
 Tags: links, sidebar, navigation
 Requires at least: 1.5.0
 Tested up to: 2.3
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 
 A plugin for wordpress which allows you to list your links in a sexier way. Very useful when you have a great number of links and categories.
 
@@ -46,6 +46,10 @@ Check-out the options page of the plugin to set some options.
 If you want to enable the scriptaculous or jQuery effects, you need to make sure that the corresponding javascript files are imported in your page. You can use the [wp-scriptaculous plugin](http://www.silpstream.com/blog/wp-scriptaculous/) in order to include scriptaculous automatically for you or do it manually in your theme (did not find any wp-jquery plugin).
 
 == Change log ==
+
+**v3.0.3**
+
+[*] Bug correction: javascript problem when only inserting the links of one category.
 
 **v3.0.1**
 
