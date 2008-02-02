@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: enhanced links
-Version: 3.0.3
+Version: 3.0.4
 Plugin URI: http://enhanced-links.vincentprat.info
 Description: Allows to get better control over the links listing. Please make a donation if you are satisfied.
 Author: Vincent Prat
@@ -26,7 +26,7 @@ Author URI: http://www.vincentprat.info
 */
 
 // Version of the plugin
-define('ENHANCED_LINKS_CURRENT_VERSION', '3.0.3' );
+define('ENHANCED_LINKS_CURRENT_VERSION', '3.0.4' );
 
 // i18n plugin domain 
 define('ENHANCED_LINKS_I18N_DOMAIN', 'enhanced-links');
@@ -351,8 +351,7 @@ function enh_links_insert_categories() {
 			if (enh_links_get_is_symbol_before()) {
 				echo '<a id="categoryButton'. $cat->cat_id . '">' . enh_links_get_show_symbol() . '</a> &nbsp; ';
 			}
-		?><a href='javascript:enh_links_expandCategory(<?php echo $cat->cat_id; ?>);' 
-			title='<?php _e("Show/Hide links", ENHANCED_LINKS_I18N_DOMAIN); ?>'><?php echo $cat->cat_name ?></a><?php 
+		?><a href='javascript:enh_links_expandCategory(<?php echo $cat->cat_id; ?>);' title='<?php _e("Show/Hide links", ENHANCED_LINKS_I18N_DOMAIN); ?>'><?php echo $cat->cat_name ?></a><?php 
 			if (!enh_links_get_is_symbol_before()) {
 				echo '&nbsp;<a id="categoryButton'. $cat->cat_id . '">' . enh_links_get_show_symbol() . '</a>';
 			}
@@ -388,8 +387,7 @@ function enh_links_insert_category($id) {
 		if (enh_links_get_is_symbol_before()) {
 			echo '<a id="categoryButton'. $cat->cat_id . '">' . enh_links_get_show_symbol() . '</a> &nbsp; ';
 		}
-	?><a href='javascript:enh_links_expandCategory(<?php echo $cat->cat_id; ?>);' 
-		title='<?php _e("Show/Hide links", ENHANCED_LINKS_I18N_DOMAIN); ?>'><?php echo $cat->cat_name ?></a><?php 
+	?><a href='javascript:enh_links_expandCategory(<?php echo $cat->cat_id; ?>);' title='<?php _e("Show/Hide links", ENHANCED_LINKS_I18N_DOMAIN); ?>'><?php echo $cat->cat_name ?></a><?php 
 		if (!enh_links_get_is_symbol_before()) {
 			echo '&nbsp;<a id="categoryButton'. $cat->cat_id . '">' . enh_links_get_show_symbol() . '</a>';
 		}
