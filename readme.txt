@@ -10,7 +10,7 @@ A plugin for wordpress which allows you to list your links in a sexier way. Very
 
 == Description ==
 
-This plugin allows you to get better control on how your categories are listed. It provides a widget which lets you get more options than the default WordPress category widget (show RSS, hide empty categories, etc.). Furthermore, it allows to hide the children categories and use clickable buttons to expand them. The plugin requires jQuery to be included in your theme. It degrades nicely when javascript is not available to the usual WordPress category list. 
+This plugin allows you to get better control on how your links are listed. It provides a widget which lets you get more options than the default WordPress links widget (show image, description, etc.). Furthermore, it allows to hide the links in the categories and use clickable buttons to expand them. The plugin requires jQuery to be included in your theme. It degrades nicely when javascript is not available to the usual WordPress link list. 
 
 [plugin home page](http://enhanced-links.vincentprat.info).
 
