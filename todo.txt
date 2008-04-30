@@ -1,1 +1,0 @@
-- Bug if the show/hide symbol is ''
