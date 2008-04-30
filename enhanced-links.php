@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: enhanced links
-Version: 3.0.4
+Plugin Name: Enhanced Links
+Version: 4.0.0
 Plugin URI: http://enhanced-links.vincentprat.info
-Description: Allows to get better control over the links listing. Please make a donation if you are satisfied.
+Description: Allows to get better control over the links listing. Also provides a widget view of the links. Please make a donation if you are satisfied.
 Author: Vincent Prat
 Author URI: http://www.vincentprat.info
 */
@@ -26,18 +26,16 @@ Author URI: http://www.vincentprat.info
 */
 
 // Version of the plugin
-define('ENHANCED_LINKS_CURRENT_VERSION', '3.0.4' );
+define('ENHANCED_LINKS_CURRENT_VERSION', '4.0.0' );
 
 // i18n plugin domain 
 define('ENHANCED_LINKS_I18N_DOMAIN', 'enhanced-links');
 
 // Options
 define('ENHANCED_LINKS_VERSION_OPTION', 'enh_links_version');
-define('ENHANCED_LINKS_SHOW_SYMBOL_OPTION', 'enh_links_show_symbol');
-define('ENHANCED_LINKS_HIDE_SYMBOL_OPTION', 'enh_links_hide_symbol');
-define('ENHANCED_LINKS_IS_SYMBOL_BEFORE_OPTION', 'enh_links_is_symbol_before');
-define('ENHANCED_LINKS_SHOW_LINK_DESCRIPTION_OPTION', 'enh_links_show_link_description');
-define('ENHANCED_LINKS_EFFECT_OPTION', 'enh_links_effect');
+
+// you can deactivate the javascript effect by setting the next variable to false
+define('ENHANCED_LINKS_USE_JAVASCRIPT', true);
 
 /**
  * Initialise the internationalisation domain
@@ -63,47 +61,20 @@ function enh_links_plugin_activation() {
 		// do nothing
 	} else if ( $installed_version=='' ) {
 		// Add all options, nothing already installed
-		add_option(
-			ENHANCED_LINKS_SHOW_SYMBOL_OPTION,
-			'&raquo;',
-			'The symbol to display when the category can be shown.' );
-		add_option(
-			ENHANCED_LINKS_HIDE_SYMBOL_OPTION,
-			'&laquo;',
-			'The symbol to display when the category can be hidden.' );
-		add_option(
-			ENHANCED_LINKS_IS_SYMBOL_BEFORE_OPTION,
-			true,
-			'Set this to true if you want to show the symbol before the category name.' );
-		add_option(
-			ENHANCED_LINKS_SHOW_LINK_DESCRIPTION_OPTION,
-			false,
-			'Set this to true if you want to show the link description.' );
-		add_option(
-			ENHANCED_LINKS_EFFECT_OPTION,
-			'none',
-			'The effect used to show/hide the links.' );
 		add_option( 
 			ENHANCED_LINKS_VERSION_OPTION, 
 			enh_links_get_current_version(),
-			'Enhanced links version number');	
+			'Enhanced links version number');			
+	} else if ( $installed_version<='3.1' ) {
+		remove_option(ENHANCED_LINKS_SHOW_SYMBOL_OPTION);
+		remove_option(ENHANCED_LINKS_HIDE_SYMBOL_OPTION);
+		remove_option(ENHANCED_LINKS_IS_SYMBOL_BEFORE_OPTION);
+		remove_option(ENHANCED_LINKS_SHOW_LINK_DESCRIPTION_OPTION);
+		remove_option(ENHANCED_LINKS_EFFECT_OPTION);
 	}
 	
 	// Update version number
 	update_option( ENHANCED_LINKS_VERSION_OPTION, enh_links_get_current_version() );	
-}
-
-/**
- * Add options page
- */
-add_action( 'admin_menu', 'enh_links_add_pages' );
-function enh_links_add_pages() {
-	enh_links_init_i18n();
-
-	add_options_page( __('Enhanced Links', ENHANCED_LINKS_I18N_DOMAIN), 
-		__('Enhanced Links', ENHANCED_LINKS_I18N_DOMAIN), 
-		8, 
-		'options-general.php?page=enhanced-links/enhanced-links_options_page.php' );
 }
 
 /**
@@ -120,291 +91,201 @@ function enh_links_get_current_version() {
 	return ENHANCED_LINKS_CURRENT_VERSION;
 }
 
-/**
- * Wrapper for the option 'ENHANCED_LINKS_SHOW_SYMBOL_OPTION'
- */
-function enh_links_get_show_symbol() {
-	return get_option( ENHANCED_LINKS_SHOW_SYMBOL_OPTION );
-}
-
-/**
- * Wrapper for the option 'ENHANCED_LINKS_SHOW_SYMBOL_OPTION'
- */
-function enh_links_set_show_symbol($value) {
-	return update_option( ENHANCED_LINKS_SHOW_SYMBOL_OPTION, $value );
-}
-
-/**
- * Wrapper for the option 'ENHANCED_LINKS_HIDE_SYMBOL_OPTION'
- */
-function enh_links_get_hide_symbol() {
-	return get_option( ENHANCED_LINKS_HIDE_SYMBOL_OPTION );
-}
-
-/**
- * Wrapper for the option 'ENHANCED_LINKS_HIDE_SYMBOL_OPTION'
- */
-function enh_links_set_hide_symbol($value) {
-	return update_option( ENHANCED_LINKS_HIDE_SYMBOL_OPTION, $value );
-}
-
-/**
- * Wrapper for the option 'ENHANCED_LINKS_IS_SYMBOL_BEFORE_OPTION'
- */
-function enh_links_get_is_symbol_before() {
-	return get_option( ENHANCED_LINKS_IS_SYMBOL_BEFORE_OPTION );
-}
-
-/**
- * Wrapper for the option 'ENHANCED_LINKS_IS_SYMBOL_BEFORE_OPTION'
- */
-function enh_links_set_is_symbol_before($value) {
-	return update_option( ENHANCED_LINKS_IS_SYMBOL_BEFORE_OPTION, $value );
-}
-
-/**
- * Wrapper for the option 'ENHANCED_LINKS_SHOW_LINK_DESCRIPTION_OPTION'
- */
-function enh_links_get_show_link_description() {
-	return get_option( ENHANCED_LINKS_SHOW_LINK_DESCRIPTION_OPTION );
-}
-
-/**
- * Wrapper for the option 'ENHANCED_LINKS_SHOW_LINK_DESCRIPTION_OPTION'
- */
-function enh_links_set_show_link_description($value) {
-	return update_option( ENHANCED_LINKS_SHOW_LINK_DESCRIPTION_OPTION, $value );
-}
-
-/**
- * Wrapper for the option 'ENHANCED_LINKS_EFFECT_OPTION'
- */
-function enh_links_get_effect() {
-	return get_option( ENHANCED_LINKS_EFFECT_OPTION );
-}
-
-/**
- * Wrapper for the option 'ENHANCED_LINKS_EFFECT_OPTION'
- */
-function enh_links_set_effect($value) {
-	return update_option( ENHANCED_LINKS_EFFECT_OPTION, $value );
-}
-
-/**
- * Get the list of categories 
- */ 
-function enh_links_get_categories() {
-	global $wpdb;
-	
-	if (isset($wpdb->linkcategories)) {
-		// For wordpress 1.5.x and 2.0.x
-		return $wpdb->get_results(
-			"SELECT cat_id, cat_name 
-			 FROM $wpdb->linkcategories");
-	} else if (isset($wpdb->terms)) {
-		// For wordpress v2.3+
-		return $wpdb->get_results(
-			"SELECT 
-				$wpdb->terms.term_id AS cat_id, $wpdb->terms.name AS cat_name
-			FROM 
-				$wpdb->terms JOIN $wpdb->term_taxonomy 
-					ON ($wpdb->terms.term_id = $wpdb->term_taxonomy.term_id)
-			WHERE 
-				($wpdb->term_taxonomy.taxonomy = 'link_category')
-				AND ($wpdb->term_taxonomy.count > 0)");
-	} else {
-		// For wordpress v2.1+
-		return $wpdb->get_results(
-			"SELECT cat_id, cat_name 
-			 FROM $wpdb->categories 
-			 WHERE link_count>0 
-			 ORDER BY cat_name");
-	} 
-}
-
-/**
- * Get a category given its ID
- */ 
-function enh_links_get_category($id) {
-	global $wpdb;
-	
-	if (isset($wpdb->linkcategories)) {
-		// For wordpress 1.5.x and 2.0.x
-		return $wpdb->get_results(
-			"SELECT cat_id, cat_name 
-			 FROM $wpdb->linkcategories
-			 WHERE cat_id = $id 
-			 ORDER BY cat_name");
-	} else if (isset($wpdb->terms)) {
-		// For wordpress v2.3+
-		return $wpdb->get_results(
-			"SELECT 
-				$wpdb->terms.term_id AS cat_id, $wpdb->terms.name AS cat_name
-			FROM 
-				$wpdb->terms JOIN $wpdb->term_taxonomy 
-					ON ($wpdb->terms.term_id = $wpdb->term_taxonomy.term_id)
-			WHERE 
-				($wpdb->term_taxonomy.taxonomy = 'link_category')
-				AND ($wpdb->term_taxonomy.count > 0)
-				AND $wpdb->terms.term_id = $id");
-	} else {
-		// For wordpress v2.1+
-		return $wpdb->get_results(
-			"SELECT cat_id, cat_name 
-			 FROM $wpdb->categories 
-			 WHERE link_count > 0 
-				AND cat_id=$id 
-			 ORDER BY cat_name");
-	} 
-}
-
+if (ENHANCED_LINKS_USE_JAVASCRIPT) {
 /**
  * Function to insert the javascript in the page header
  */
 add_action('wp_head', 'enh_links_insert_javascript');
-$enh_links_global_category_cache = enh_links_get_categories();
-
 function enh_links_insert_javascript() {
-	global $enh_links_global_category_cache;
 ?>
-<!-- Start Of Script Generated By Enhanced Links -->
-<script type="text/javascript">
-	var enh_links_js_categories = new Array(<?php echo count($enh_links_global_category_cache); ?>);
+<script src="<?php echo get_bloginfo('wpurl'); ?>/wp-content/plugins/enhanced-links/enhanced-links.js" type="text/javascript" ></script>
 <?php
-	// Declare the JS variables
-	$i = 0;
-	foreach ($enh_links_global_category_cache as $cat) {	
-		$clean_cat_name = str_replace("'","\'",$cat->cat_name);
-		echo "\tenh_links_js_categories[$i] = new Array($cat->cat_id, '$clean_cat_name', true);\n";
-		$i++;
-	}
-?>
-	function enh_links_showContent(content, effect) {
-		if (effect=='jQuery') {
-			jQuery(content).slideDown();
-		} else if (effect=='scriptaculous') {
-			new Effect.BlindDown(content);
-		} else {
-			content.style.display = 'block';
-		}
-	}
+}
+}
+
+/**
+* Function to list the links in a template
+*/
+global $global_ul_index;
+$global_ul_index = 0;
+
+function enh_links_list_links($args = '') {	
+	global $global_ul_index;
+	$global_ul_index++;
 	
-	function enh_links_hideContent(content, effect) {
-		if (effect=='jQuery') {
-			jQuery(content).slideUp();
-		} else if (effect=='scriptaculous') {
-			new Effect.BlindUp(content);
-		} else {
-			content.style.display = 'none';
-		}
+	$defaults = array(
+		// Options of the plugin
+		'hide_invisible' 	=> 1,
+		'show_description' 	=> 0,
+		'show_images' 		=> 1,	
+		'show_rating'		=> 0,
+		'button_color' 		=> '#AA0000',
+		'expand_text' 		=> '&raquo;',
+		'leaf_text' 		=> '-',
+		'contract_text' 	=> '&laquo;',
+		'contract_children' => 1,
+
+		// Those are not set by the options
+		'title_before' 		=> '<span class="link-cat-title" style="cursor: pointer;">', 
+		'title_after' 		=> '</span>',
+		'before' 			=> '<li>',
+		'after' 			=> '</li>',
+		'between' 			=> '&nbsp;<br/>',
+		'wp_list_bookmarks' => 1,
+		'orderby' 			=> 'name',
+		'order' 			=> 'ASC',
+		'limit'				=> -1,
+		'category'			=> ''
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+
+	if (ENHANCED_LINKS_USE_JAVASCRIPT) {
+?>
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+				jQuery('ul.enhanced-links-<?php echo $global_ul_index; ?>').enhancedLinks({
+					// Override here the default settings for the plugin
+					expandText	: '<?php echo $r['expand_text']; ?>',
+					contractText: '<?php echo $r['contract_text']; ?>',
+					leafText	: '<?php echo $r['leaf_text']; ?>',
+					buttonColor	: '<?php echo $r['button_color']; ?>',
+					contractChildren: <?php echo $r['contract_children']; ?>
+				});
+			});
+		</script>
+<?php	
 	}
 
-	function enh_links_expandCategory(categoryId) {
-		var symbolBeforeCatName = <?php if (enh_links_get_is_symbol_before()) echo "true"; else echo "false"; ?>;
-		var showSymbol = <?php echo "'" . enh_links_get_show_symbol() . "'"; ?>;
-		var hideSymbol = <?php echo "'" . enh_links_get_hide_symbol() . "'"; ?>;
-		var effect = <?php echo "'" . enh_links_get_effect() . "'"; ?>;
+	echo '<ul class="enhanced-links-' . $global_ul_index . '">';
+	wp_list_bookmarks($r);
+	echo '</ul>';
+}
+
+/**
+* Function to list the links in a widget
+*/
+function enh_links_widget($args) {
+	extract($args, EXTR_SKIP);
+	$options = get_option('enh_links_widget');
+	$title = empty($options['widget_title']) ? __('Links', ENHANCED_LINKS_I18N_DOMAIN) : $options['widget_title'];
+
+	echo $before_widget; 
+		echo $before_title . $title . $after_title;
+		enh_links_list_links($options); 
+	echo $after_widget;
+}
+
+/**
+* Widget settings window
+*/
+function enh_links_widget_control() {
+	// Get our options
+	//--
+	$options = get_option('enh_links_widget');
+	if ( !is_array($options) ) {
+		$options = array(
+			'widget_title'		=> '', 
+			'hide_invisible' 	=> 1,
+			'show_description' 	=> 0,
+			'show_images' 		=> 1,	
+			'show_rating'		=> 0,
+			'contract_children' => 1,
+			'button_color' 		=> '#AA0000',
+			'expand_text' 		=> '&raquo;',
+			'contract_text' 	=> '&laquo;',
+			'leaf_text' 		=> '-'
+		);
+	}
+	
+	// See if we're handling a form submission
+	//--
+	if ( $_POST['enh_links-submit'] ) {
+		$options['widget_title'] 	= strip_tags(stripslashes($_POST['enh_links-widget_title']));
+		$options['hide_invisible'] 	= $_POST['enh_links-hide_invisible'] ? 1 : 0;
+		$options['show_description']= $_POST['enh_links-show_description'] ? 1 : 0;
+		$options['show_images']		= $_POST['enh_links-show_images'] 	? 1 : 0;
+		$options['show_rating']		= $_POST['enh_links-show_rating'] 	? 1 : 0;
+		$options['contract_children']= $_POST['enh_links-contract_children'] ? 1 : 0;
+		$options['button_color']	= strip_tags(stripslashes($_POST['enh_links-button_color']));
+		$options['expand_text']		= strip_tags(stripslashes($_POST['enh_links-expand_text']));
+		$options['contract_text']	= strip_tags(stripslashes($_POST['enh_links-contract_text']));
+		$options['leaf_text']		= strip_tags(stripslashes($_POST['enh_links-leaf_text']));
 		
-		for (var i=0; i<enh_links_js_categories.length; i++) {
-			var currentId = enh_links_js_categories[i][0];
-			var currentName = enh_links_js_categories[i][1];
-			var currentlyHidden = enh_links_js_categories[i][2];
-			var currentButton = document.getElementById('categoryButton' + currentId);
-			var currentContent = document.getElementById('categoryContent' + currentId);
-			if (currentId==categoryId) {
-				// Expand this category	or contract it if it was expanded before
-				if (currentlyHidden) {
-					enh_links_showContent(currentContent, effect);
-					currentButton.innerHTML = hideSymbol;
-					enh_links_js_categories[i][2] = false;
-				} else {
-					enh_links_hideContent(currentContent, effect);
-					currentButton.innerHTML = showSymbol;
-					enh_links_js_categories[i][2] = true;
-				} 
-			} else {
-				// Contract this category								
-				if ((typeof currentButton!='undefined') 
-						&& (currentButton!=null) 
-						&& (currentButton.innerHTML!=showSymbol)) {
-					enh_links_hideContent(currentContent, effect);
-					currentButton.innerHTML = showSymbol;
-					enh_links_js_categories[i][2] = true;
-				} 
-			}
-		}
+		update_option('enh_links_widget', $options);
 	}
-</script>
-<!-- End Of Script Generated By Enhanced Links -->
-<?php
-}
 
-/**
- * Function to insert the html code for the link categories
- */
-function enh_links_insert_categories() {
-	global $enh_links_global_category_cache;
+	// The widget control
+	//--
+	$widget_title = htmlspecialchars($options['widget_title'], ENT_QUOTES);
+?>
+	<p>
+		<label><?php _e('Title:', ENHANCED_LINKS_I18N_DOMAIN); ?><br/>
+		<input style="width: 250px;" id="enh_links-widget_title" name="enh_links-widget_title" type="text" value="<?php echo $widget_title; ?>" /></label>
+	</p>
 	
-	foreach ($enh_links_global_category_cache as $cat) {	
-?>
-		<h2><?php 
-			if (enh_links_get_is_symbol_before()) {
-				echo '<a id="categoryButton'. $cat->cat_id . '">' . enh_links_get_show_symbol() . '</a> &nbsp; ';
-			}
-		?><a href='javascript:enh_links_expandCategory(<?php echo $cat->cat_id; ?>);' title='<?php _e("Show/Hide links", ENHANCED_LINKS_I18N_DOMAIN); ?>'><?php echo $cat->cat_name ?></a><?php 
-			if (!enh_links_get_is_symbol_before()) {
-				echo '&nbsp;<a id="categoryButton'. $cat->cat_id . '">' . enh_links_get_show_symbol() . '</a>';
-			}
-		?>
-		</h2>
-		<div id="categoryContent<?php echo $cat->cat_id; ?>" style="display: none;">
-			<ul>
-				<?php get_links( 
-					$cat->cat_id, 
-					'<li>',       
-					'</li>',      
-					'<br/>',  
-					false, 'name', 
-					enh_links_get_show_link_description(), 
-					false, -1, 1, true ); ?>
-			</ul>
-		</div>  	
-<?php
-	} 	
+	<br/>
+	<p><strong>&raquo; <?php _e('Links listing options', ENHANCED_LINKS_I18N_DOMAIN); ?></strong></p>
+	<p>
+		<label><input class="checkbox" <?php enh_links_checked($options['hide_invisible']); ?> id="enh_links-hide_invisible" name="enh_links-hide_invisible" type="checkbox"> 
+		<?php _e('Hide links marked as "invisible"', ENHANCED_LINKS_I18N_DOMAIN); ?></label>
+	</p>
+	<p>
+		<label><input class="checkbox" <?php enh_links_checked($options['show_description']); ?> id="enh_links-show_description" name="enh_links-show_description" type="checkbox"> 
+		<?php _e('Show link description', ENHANCED_LINKS_I18N_DOMAIN); ?></label>
+	</p>
+	<p>
+		<label><input class="checkbox" <?php enh_links_checked($options['show_images']); ?> id="enh_links-show_images" name="enh_links-show_images" type="checkbox"> 
+		<?php _e('Show link image', ENHANCED_LINKS_I18N_DOMAIN); ?></label>
+	</p>
+	<p>
+		<label><input class="checkbox" <?php enh_links_checked($options['show_rating']); ?> id="enh_links-show_rating" name="enh_links-show_rating" type="checkbox"> 
+		<?php _e('Show link rating', ENHANCED_LINKS_I18N_DOMAIN); ?></label>
+	</p>
+	
+<?php 	if (ENHANCED_LINKS_USE_JAVASCRIPT) { ?>
+	<br/>
+	<p><strong>&raquo; <?php _e('Javascript options', ENHANCED_LINKS_I18N_DOMAIN); ?></strong></p>
+	<p>
+		<label><input class="checkbox" <?php enh_links_checked($options['contract_children']); ?> id="enh_links-contract_children" name="enh_links-contract_children" type="checkbox"> 
+		<?php _e('Contract link categories', ENHANCED_LINKS_I18N_DOMAIN); ?></label>
+	</p>
+	<p>
+		<label><?php _e('Button color:', ENHANCED_LINKS_I18N_DOMAIN); ?><br/>
+		<input style="width: 250px;" id="enh_links-button_color" name="enh_links-button_color" type="text" value="<?php echo $options['button_color']; ?>" /></label>
+	</p>
+	<p>
+		<label><?php _e('Expand button text:', ENHANCED_LINKS_I18N_DOMAIN); ?><br/> 
+		<input style="width: 250px;" id="enh_links-expand_text" name="enh_links-expand_text" type="text" value="<?php echo $options['expand_text']; ?>" /></label>
+	</p>
+	<p>
+		<label><?php _e('Contract button text:', ENHANCED_LINKS_I18N_DOMAIN); ?><br/>
+		<input style="width: 250px;" id="enh_links-contract_text" name="enh_links-contract_text" type="text" value="<?php echo $options['contract_text']; ?>" /></label>
+	</p>
+	<p>
+		<label><?php _e('Text when category has no child:', ENHANCED_LINKS_I18N_DOMAIN); ?><br/>
+		<input style="width: 250px;" id="enh_links-leaf_text" name="enh_links-leaf_text" type="text" value="<?php echo $options['leaf_text']; ?>" /></label>
+	</p>
+<?php } ?>
+	
+	<input type="hidden" id="enh_links-submit" name="enh_links-submit" value="1" />
+<?php 	
 }
 
 /**
- * Function to insert the html code for a particular link category
- */
-function enh_links_insert_category($id) {
-	$cat = enh_links_get_category($id);
-	if (!isset($cat) || $cat==null) {
-		return;
-	}
-	$cat = $cat[0];
-?>
-	<h2><?php 
-		if (enh_links_get_is_symbol_before()) {
-			echo '<a id="categoryButton'. $cat->cat_id . '">' . enh_links_get_show_symbol() . '</a> &nbsp; ';
-		}
-	?><a href='javascript:enh_links_expandCategory(<?php echo $cat->cat_id; ?>);' title='<?php _e("Show/Hide links", ENHANCED_LINKS_I18N_DOMAIN); ?>'><?php echo $cat->cat_name ?></a><?php 
-		if (!enh_links_get_is_symbol_before()) {
-			echo '&nbsp;<a id="categoryButton'. $cat->cat_id . '">' . enh_links_get_show_symbol() . '</a>';
-		}
-	?>
-	</h2>
-	<div id="categoryContent<?php echo $cat->cat_id; ?>" style="display: none;">
-		<ul>
-			<?php get_links( 
-				$cat->cat_id, 
-				'<li>',       
-				'</li>',      
-				'<br/>',  
-				false, 'name', 
-				enh_links_get_show_link_description(), 
-				false, -1, 1, true ); ?>
-		</ul>
-	</div>  	
-<?php
+* Register the widget
+*/
+add_action('widgets_init', 'enh_links_widget_init');
+function enh_links_widget_init() {
+	register_sidebar_widget(__('Enhanced Links', ENHANCED_LINKS_I18N_DOMAIN), 'enh_links_widget');
+	register_widget_control(__('Enhanced Links', ENHANCED_LINKS_I18N_DOMAIN), 'enh_links_widget_control', 400, 250);
+}
+
+/**
+* Helper function to output the checked attribute of a checkbox
+*/
+function enh_links_checked($var) {
+	if ($var==1 || $var==true)
+		echo 'checked="checked"';
 }
 ?>
