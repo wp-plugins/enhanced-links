@@ -4,13 +4,13 @@ Donate link: http://enhanced-links.vincentprat.info
 Tags: links, sidebar, navigation
 Requires at least: 2.3
 Tested up to: 2.5
-Stable tag: 4.0.0
+Stable tag: 4.1.0
 
 A plugin for wordpress which allows you to list your links in a sexier way. Very useful when you have a great number of links and categories.
 
 == Description ==
 
-This plugin allows you to get better control on how your links are listed. It provides a widget which lets you get more options than the default WordPress links widget (show image, description, etc.). Furthermore, it allows to hide the links in the categories and use clickable buttons to expand them. The plugin requires jQuery to be included in your theme. It degrades nicely when javascript is not available to the usual WordPress link list. 
+This plugin allows you to get better control on how your categories are listed. It provides a widget which lets you get more options than the default WordPress category widget (show RSS, hide empty categories, etc.). Furthermore, it allows to hide the children categories and use clickable buttons to expand them. The plugin requires jQuery to be included in your theme. It degrades nicely when javascript is not available to the usual WordPress category list. 
 
 [plugin home page](http://enhanced-links.vincentprat.info).
 

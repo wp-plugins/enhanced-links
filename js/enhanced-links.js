@@ -33,9 +33,15 @@ jQuery.fn.enhancedLinks = function(args) {
 		
 		// Make button text
 		if (hasChildren) {
-			button += '<span class="button" style="cursor: pointer;">';
-			button += defaults.expandText;
-			button += '</span>';
+			if (defaults.contractChildren==1) {
+				button += '<span class="button is_expanded" style="cursor: pointer;">';
+				button += defaults.expandText;
+				button += '</span>';
+			} else {
+				button += '<span class="button is_contracted" style="cursor: pointer;">';
+				button += defaults.contractText;
+				button += '</span>';
+			}
 		} else {
 			button += '<span class="button" style="">';
 			button += defaults.leafText;
@@ -55,6 +61,28 @@ jQuery.fn.enhancedLinks = function(args) {
 					})
 				.click(function() {
 						jQuery(this).siblings('ul').slideToggle();
+							
+						if (jQuery(this).hasClass('link-cat-title'))
+							var buttons = jQuery(this).siblings('span.button');
+						else 
+							var buttons = jQuery(this);
+							
+						buttons
+							.filter('span.button')
+								.each(function() {
+									if (jQuery(this).hasClass('is_expanded')) {
+										jQuery(this)
+											.html(defaults.contractText)
+											.removeClass('is_expanded')
+											.addClass('is_contracted');
+									} else {
+										jQuery(this)
+											.html(defaults.expandText)
+											.removeClass('is_contracted')
+											.addClass('is_expanded');
+									}
+									return this;
+								});
 					});
 					
 		jQuery(this).children('ul')
