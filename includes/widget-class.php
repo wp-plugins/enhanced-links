@@ -70,11 +70,15 @@ class EnhancedLinksWidget {
 			$this->options['show_description']	= $_POST['enh_links-show_description'] ? 1 : 0;
 			$this->options['show_images']		= $_POST['enh_links-show_images'] 	? 1 : 0;
 			$this->options['show_rating']		= $_POST['enh_links-show_rating'] 	? 1 : 0;
+			$this->options['is_button_after']	= $_POST['enh_links-is_button_after'] ? 1 : 0;
 			$this->options['contract_children']	= $_POST['enh_links-contract_children'] ? 1 : 0;
 			$this->options['button_color']		= strip_tags(stripslashes($_POST['enh_links-button_color']));
 			$this->options['expand_text']		= strip_tags(stripslashes($_POST['enh_links-expand_text']));
 			$this->options['contract_text']		= strip_tags(stripslashes($_POST['enh_links-contract_text']));
 			$this->options['leaf_text']			= strip_tags(stripslashes($_POST['enh_links-leaf_text']));
+			$this->options['expand_image']		= $_POST['enh_links-expand_image'];
+			$this->options['contract_image']	= $_POST['enh_links-contract_image'];
+			$this->options['leaf_image']		= $_POST['enh_links-leaf_image'];
 			
 			$this->save_options();
 		}
@@ -120,6 +124,10 @@ class EnhancedLinksWidget {
 	<?php _e('Contract link categories', ENHANCED_LINKS_I18N_DOMAIN); ?></label>
 </p>
 <p>
+	<label><input class="checkbox" <?php $this->render_checked($this->options['is_button_after']); ?> id="enh_links-is_button_after" name="enh_links-is_button_after" type="checkbox"> 
+	<?php _e('Place expand/contract button after the category', ENHANCED_LINKS_I18N_DOMAIN); ?></label>
+</p>
+<p>
 	<label><?php _e('Button color:', ENHANCED_LINKS_I18N_DOMAIN); ?><br/>
 	<input style="width: 250px;" id="enh_links-button_color" name="enh_links-button_color" type="text" value="<?php echo $this->options['button_color']; ?>" /></label>
 </p>
@@ -134,6 +142,18 @@ class EnhancedLinksWidget {
 <p>
 	<label><?php _e('Text when category has no child:', ENHANCED_LINKS_I18N_DOMAIN); ?><br/>
 	<input style="width: 250px;" id="enh_links-leaf_text" name="enh_links-leaf_text" type="text" value="<?php echo $this->options['leaf_text']; ?>" /></label>
+</p>
+<p>
+	<label><?php _e('Expand button image:', ENHANCED_LINKS_I18N_DOMAIN); ?><br/> 
+	<input style="width: 250px;" id="enh_links-expand_image" name="enh_links-expand_image" type="text" value="<?php echo $this->options['expand_image']; ?>" /></label>
+</p>
+<p>
+	<label><?php _e('Contract button image:', ENHANCED_LINKS_I18N_DOMAIN); ?><br/>
+	<input style="width: 250px;" id="enh_links-contract_image" name="enh_links-contract_image" type="text" value="<?php echo $this->options['contract_image']; ?>" /></label>
+</p>
+<p>
+	<label><?php _e('Image when category has no child:', ENHANCED_LINKS_I18N_DOMAIN); ?><br/>
+	<input style="width: 250px;" id="enh_links-leaf_image" name="enh_links-leaf_image" type="text" value="<?php echo $this->options['leaf_image']; ?>" /></label>
 </p>
 	<?php 
 		} // if (ENHANCED_LINKS_USE_JAVASCRIPT)
@@ -162,7 +182,7 @@ class EnhancedLinksWidget {
 	* Load the options from database (set default values in case options are not set)
 	*/
 	function load_options() {
-		$this->options = get_option(ENHANCED_LINKS_options);
+		$this->options = get_option(ENHANCED_LINKS_WIDGET_OPTIONS);
 		
 		if ( !is_array($this->options) ) {
 			$this->options = array(
@@ -175,7 +195,11 @@ class EnhancedLinksWidget {
 				'button_color' 		=> '#AA0000',
 				'expand_text' 		=> '&raquo;',
 				'contract_text' 	=> '&laquo;',
-				'leaf_text' 		=> '-'
+				'leaf_text' 		=> '-',
+				'expand_image'		=> get_bloginfo('url') . '/wp-content/plugins/enhanced-links/images/expand.gif',
+				'contract_image'	=> get_bloginfo('url') . '/wp-content/plugins/enhanced-links/images/contract.gif',
+				'leaf_image'		=> get_bloginfo('url') . '/wp-content/plugins/enhanced-links/images/leaf.gif',
+				'is_button_after' 	=> 0
 			);
 		}
 	}
@@ -184,7 +208,7 @@ class EnhancedLinksWidget {
 	* Save options to database
 	*/
 	function save_options() {
-		update_option(ENHANCED_LINKS_options, $this->options);
+		update_option(ENHANCED_LINKS_WIDGET_OPTIONS, $this->options);
 	}
 	
 	/**

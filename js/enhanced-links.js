@@ -1,58 +1,81 @@
 function EnhancedLinksPlugin() {
 	this._settings = {
-		expandText: '&raquo;',
-		contractText: '&laquo;',
-		leafText: '-',
-		buttonColor: '#CC0000',
-		buttonWidth: '10px',
-		buttonMargin: '0 5px 0 0'
+		expandText		: '&raquo;',
+		contractText	: '&laquo;',
+		leafText		: '-',
+		expandImage		: '',	
+		contractImage	: '',
+		leafImage		: '',
+		buttonColor		: '#CC0000',
+		buttonWidth		: '10px',
+		buttonMargin	: '0 5px 0 0',
+		isButtonAfter	: false
 	};
 }
 
-jQuery.extend(EnhancedLinksPlugin.prototype, {
+$.extend(EnhancedLinksPlugin.prototype, {
 	setSettings: function(newSettings) {
-		jQuery.extend(this._settings, newSettings || {});
+		$.extend(this._settings, newSettings || {});
 	},
 	
 	getSettings: function() {
 		return this._settings;
+	},
+
+	getButtonText: function(text, image) {
+		var output = '';
+		if (image=='') {
+			output += text;
+		} else {
+			output += '<img src="' + image + '" alt="' + text + '" title="' + text + '" />';
+		}
+		
+		return output;
 	}
 });
 
-jQuery(document).ready(function() {
+$(document).ready(function() {
 	EnhancedLinksPlugin = new EnhancedLinksPlugin();
 });
 
-jQuery.fn.enhancedLinks = function(args) { 
+$.fn.enhancedLinks = function(args) { 
 	var defaults = EnhancedLinksPlugin.getSettings(); 
-	jQuery.extend(defaults, args);
+	$.extend(defaults, args);
 	
-	return jQuery('li.linkcat', this).each(function() {	
-		var hasChildren = (jQuery(this).children('ul').length > 0);
+	return $('li.linkcat', this).each(function() {	
+		var hasChildren = ($(this).children('ul').length > 0);
 		var button = '';
 		
 		// Make button text
 		if (hasChildren) {
 			if (defaults.contractChildren==1) {
 				button += '<span class="button is_expanded" style="cursor: pointer;">';
-				button += defaults.expandText;
+				button += enhancedCategoriesPlugin.getButtonText(defaults.expandText, defaults.expandImage);
 				button += '</span>';
 			} else {
 				button += '<span class="button is_contracted" style="cursor: pointer;">';
-				button += defaults.contractText;
+				button += enhancedCategoriesPlugin.getButtonText(defaults.contractText, defaults.contractImage);
 				button += '</span>';
 			}
 		} else {
 			button += '<span class="button" style="">';
-			button += defaults.leafText;
+			button += enhancedCategoriesPlugin.getButtonText(defaults.leafText, defaults.leafImage);
 			button += '</span>';
 		}
 		
-		// Add the button in front of category
-		jQuery(this).prepend(button);
+		// Add the button before or after the category
+		if (defaults.isButtonAfter) {		
+			if (hasChildren) {
+				$(this).children('ul').before(button);
+			} else {
+				$(this).append(button);
+			}			
+		} else {
+			$(this).prepend(button);
+		}
 		
 		// Behaviour of the category
-		jQuery(this)
+		$(this)
 			.css({listStyleType: 'none'})
 			.children('span.button, span.link-cat-title')
 				.css({ 	width: 	defaults.buttonWidth, 
@@ -60,24 +83,24 @@ jQuery.fn.enhancedLinks = function(args) {
 						color: 	defaults.buttonColor 
 					})
 				.click(function() {
-						jQuery(this).siblings('ul').slideToggle();
+						$(this).siblings('ul').slideToggle();
 							
-						if (jQuery(this).hasClass('link-cat-title'))
-							var buttons = jQuery(this).siblings('span.button');
+						if ($(this).hasClass('link-cat-title'))
+							var buttons = $(this).siblings('span.button');
 						else 
-							var buttons = jQuery(this);
+							var buttons = $(this);
 							
 						buttons
 							.filter('span.button')
 								.each(function() {
-									if (jQuery(this).hasClass('is_expanded')) {
-										jQuery(this)
-											.html(defaults.contractText)
+									if ($(this).hasClass('is_expanded')) {
+										$(this)
+											.html(enhancedCategoriesPlugin.getButtonText(defaults.contractText, defaults.contractImage))
 											.removeClass('is_expanded')
 											.addClass('is_contracted');
 									} else {
-										jQuery(this)
-											.html(defaults.expandText)
+										$(this)
+											.html(enhancedCategoriesPlugin.getButtonText(defaults.expandText, defaults.expandImage))
 											.removeClass('is_contracted')
 											.addClass('is_expanded');
 									}
@@ -85,12 +108,12 @@ jQuery.fn.enhancedLinks = function(args) {
 								});
 					});
 					
-		jQuery(this).children('ul')
+		$(this).children('ul')
 			.css({ 	paddingLeft: defaults.buttonWidth });
 
 		// Contract child categories if asked
 		if (defaults.contractChildren==1) {
-			jQuery(this).children('ul').hide();
+			$(this).children('ul').hide();
 		}
 
 		return this;

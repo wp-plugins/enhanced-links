@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Enhanced Links
-Version: 4.1.0
+Version: 4.2.0
 Plugin URI: http://enhanced-links.vincentprat.info
 Description: Allows to get better control over the links listing. Also provides a widget view of the links. Please make a donation if you are satisfied.
 Author: Vincent Prat

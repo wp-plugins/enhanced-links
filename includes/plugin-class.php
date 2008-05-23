@@ -33,7 +33,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 if (!class_exists("EnhancedLinksPlugin")) {
 
 class EnhancedLinksPlugin {
-	var $current_version = '4.1.0';
+	var $current_version = '4.2.0';
 	var $options;
 	var $ul_index = 0;
 	
@@ -85,6 +85,13 @@ class EnhancedLinksPlugin {
 				add_option(ENHANCED_LINKS_PLUGIN_OPTIONS, 
 					$this->options, 
 					'Enhanced Links plugin options');
+			} else if ($active_version<'4.2.0') {
+				add_option(ENHANCED_LINKS_WIDGET_OPTIONS,
+					get_option(ENHANCED_LINKS_options),
+					'Enhanced Categories widget options');
+				delete_option(ENHANCED_LINKS_options);
+				
+				$enh_links_widget->load_options();
 			}
 			
 		}
@@ -119,7 +126,11 @@ class EnhancedLinksPlugin {
 			'expand_text' 		=> '&raquo;',
 			'leaf_text' 		=> '-',
 			'contract_text' 	=> '&laquo;',
-			'contract_children' => 1,
+			'expand_image'		=> '',
+			'contract_image'	=> '',
+			'leaf_image'		=> '',
+			'contract_children'	=> 1,
+			'is_button_after' 	=> 0,
 
 			// Those are not set by the options
 			'title_before' 		=> '<span class="link-cat-title" style="cursor: pointer;">', 
@@ -142,10 +153,14 @@ class EnhancedLinksPlugin {
 	jQuery(document).ready(function() {
 		jQuery('ul.enhanced-links-<?php echo $this->ul_index; ?>').enhancedLinks({
 			// Override here the default settings for the plugin
-			expandText	: '<?php echo $r['expand_text']; ?>',
-			contractText: '<?php echo $r['contract_text']; ?>',
-			leafText	: '<?php echo $r['leaf_text']; ?>',
-			buttonColor	: '<?php echo $r['button_color']; ?>',
+			expandText		: '<?php echo $r['expand_text']; ?>',
+			contractText	: '<?php echo $r['contract_text']; ?>',
+			leafText		: '<?php echo $r['leaf_text']; ?>',
+			expandImage		: '<?php echo $r['expand_image']; ?>',
+			contractImage	: '<?php echo $r['contract_image']; ?>',
+			leafImage		: '<?php echo $r['leaf_image']; ?>',
+			isButtonAfter	: <?php echo $r['is_button_after']; ?>,
+			buttonColor		: '<?php echo $r['button_color']; ?>',
 			contractChildren: <?php echo $r['contract_children']; ?>
 		});
 	});
