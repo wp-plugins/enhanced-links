@@ -29,7 +29,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 //#################################################################
 
 //#################################################################
-// The Widget class
+// The plugin class
 if (!class_exists("EnhancedLinksPlugin")) {
 
 class EnhancedLinksPlugin {
