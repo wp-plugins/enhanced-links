@@ -13,9 +13,9 @@ function EnhancedLinksPlugin() {
 	};
 }
 
-$.extend(EnhancedLinksPlugin.prototype, {
+jQuery.extend(EnhancedLinksPlugin.prototype, {
 	setSettings: function(newSettings) {
-		$.extend(this._settings, newSettings || {});
+		jQuery.extend(this._settings, newSettings || {});
 	},
 	
 	getSettings: function() {
@@ -34,16 +34,16 @@ $.extend(EnhancedLinksPlugin.prototype, {
 	}
 });
 
-$(document).ready(function() {
+jQuery(document).ready(function() {
 	EnhancedLinksPlugin = new EnhancedLinksPlugin();
 });
 
-$.fn.enhancedLinks = function(args) { 
+jQuery.fn.enhancedLinks = function(args) { 
 	var defaults = EnhancedLinksPlugin.getSettings(); 
-	$.extend(defaults, args);
+	jQuery.extend(defaults, args);
 	
-	return $('li.linkcat', this).each(function() {	
-		var hasChildren = ($(this).children('ul').length > 0);
+	return jQuery('li.linkcat', this).each(function() {	
+		var hasChildren = (jQuery(this).children('ul').length > 0);
 		var button = '';
 		
 		// Make button text
@@ -66,16 +66,16 @@ $.fn.enhancedLinks = function(args) {
 		// Add the button before or after the category
 		if (defaults.isButtonAfter) {		
 			if (hasChildren) {
-				$(this).children('ul').before(button);
+				jQuery(this).children('ul').before(button);
 			} else {
-				$(this).append(button);
+				jQuery(this).append(button);
 			}			
 		} else {
-			$(this).prepend(button);
+			jQuery(this).prepend(button);
 		}
 		
 		// Behaviour of the category
-		$(this)
+		jQuery(this)
 			.css({listStyleType: 'none'})
 			.children('span.button, span.link-cat-title')
 				.css({ 	width: 	defaults.buttonWidth, 
@@ -83,23 +83,23 @@ $.fn.enhancedLinks = function(args) {
 						color: 	defaults.buttonColor 
 					})
 				.click(function() {
-						$(this).siblings('ul').slideToggle();
+						jQuery(this).siblings('ul').slideToggle();
 							
-						if ($(this).hasClass('link-cat-title'))
-							var buttons = $(this).siblings('span.button');
+						if (jQuery(this).hasClass('link-cat-title'))
+							var buttons = jQuery(this).siblings('span.button');
 						else 
-							var buttons = $(this);
+							var buttons = jQuery(this);
 							
 						buttons
 							.filter('span.button')
 								.each(function() {
-									if ($(this).hasClass('is_expanded')) {
-										$(this)
+									if (jQuery(this).hasClass('is_expanded')) {
+										jQuery(this)
 											.html(enhancedCategoriesPlugin.getButtonText(defaults.contractText, defaults.contractImage))
 											.removeClass('is_expanded')
 											.addClass('is_contracted');
 									} else {
-										$(this)
+										jQuery(this)
 											.html(enhancedCategoriesPlugin.getButtonText(defaults.expandText, defaults.expandImage))
 											.removeClass('is_contracted')
 											.addClass('is_expanded');
@@ -108,12 +108,12 @@ $.fn.enhancedLinks = function(args) {
 								});
 					});
 					
-		$(this).children('ul')
+		jQuery(this).children('ul')
 			.css({ 	paddingLeft: defaults.buttonWidth });
 
 		// Contract child categories if asked
 		if (defaults.contractChildren==1) {
-			$(this).children('ul').hide();
+			jQuery(this).children('ul').hide();
 		}
 
 		return this;

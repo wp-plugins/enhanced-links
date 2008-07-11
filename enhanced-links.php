@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Enhanced Links
-Version: 4.2.0
+Version: 4.2.1
 Plugin URI: http://enhanced-links.vincentprat.info
 Description: Allows to get better control over the links listing. Also provides a widget view of the links. Please make a donation if you are satisfied.
 Author: Vincent Prat
@@ -83,11 +83,21 @@ if (is_admin()) {
 	add_action(
 		'activate_enhanced-links/enhanced-links.php',
 		array(&$enh_links_plugin, 'activate'));
+	add_action(
+		'admin_menu', 
+		array(&$enh_links_plugin, 'add_javascript'), 1);
 } else {
-	if (ENHANCED_LINKS_USE_JAVASCRIPT) {
-		add_action('wp_head', array(&$enh_links_plugin, 'render_page_head'));
+	if (ENHANCED_LINKS_USE_JAVASCRIPT) {	
+		add_action(
+			'wp_head', 
+			array(&$enh_links_plugin, 'add_javascript'), 1);
+		
+		add_action(
+			'wp_head', 
+			array(&$enh_links_plugin, 'render_page_head'));
 	}
 }
+	
 //############################################################################
 
 //############################################################################

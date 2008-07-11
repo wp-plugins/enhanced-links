@@ -33,7 +33,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 if (!class_exists("EnhancedLinksPlugin")) {
 
 class EnhancedLinksPlugin {
-	var $current_version = '4.2.0';
+	var $current_version = '4.2.1';
 	var $options;
 	var $ul_index = 0;
 	
@@ -102,12 +102,19 @@ class EnhancedLinksPlugin {
 	}
 	
 	/**
+	* Enqueue the necessary javascript
+	*/
+	function add_javascript() {	
+		wp_enqueue_script('jquery');
+	}
+	
+	/**
 	* Function to render the plugin's HEAD elements in a blog page
 	*/
 	function render_page_head() {
-	?>
-<script src="<?php echo get_bloginfo('wpurl'); ?>/wp-content/plugins/enhanced-links/js/enhanced-links.js" type="text/javascript" ></script>
-	<?php
+?>
+<script src="<?php echo WP_PLUGIN_URL; ?>/enhanced-links/js/enhanced-links.js" type="text/javascript" ></script>
+<?php
 	}
 	
 	/**
@@ -149,6 +156,7 @@ class EnhancedLinksPlugin {
 
 		if (ENHANCED_LINKS_USE_JAVASCRIPT) {
 ?>
+<!-- Enhanced Links -->
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery('ul.enhanced-links-<?php echo $this->ul_index; ?>').enhancedLinks({
@@ -171,6 +179,10 @@ class EnhancedLinksPlugin {
 		echo '<ul class="enhanced-links-' . $this->ul_index . '">';
 		wp_list_bookmarks($r);
 		echo '</ul>';
+		
+?>
+<!-- Enhanced Links -->
+<?php	
 	}
 	
 	/**
