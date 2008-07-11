@@ -33,7 +33,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 if (!class_exists("EnhancedLinksPlugin")) {
 
 class EnhancedLinksPlugin {
-	var $current_version = '4.2.1';
+	var $current_version = '4.2.2';
 	var $options;
 	var $ul_index = 0;
 	

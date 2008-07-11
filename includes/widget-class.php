@@ -196,9 +196,9 @@ class EnhancedLinksWidget {
 				'expand_text' 		=> '&raquo;',
 				'contract_text' 	=> '&laquo;',
 				'leaf_text' 		=> '-',
-				'expand_image'		=> get_bloginfo('url') . '/wp-content/plugins/enhanced-links/images/expand.gif',
-				'contract_image'	=> get_bloginfo('url') . '/wp-content/plugins/enhanced-links/images/contract.gif',
-				'leaf_image'		=> get_bloginfo('url') . '/wp-content/plugins/enhanced-links/images/leaf.gif',
+				'expand_image'		=> WP_PLUGIN_URL . '/enhanced-links/images/expand.gif',
+				'contract_image'	=> WP_PLUGIN_URL . '/enhanced-links/images/contract.gif',
+				'leaf_image'		=> WP_PLUGIN_URL . '/enhanced-links/images/leaf.gif',
 				'is_button_after' 	=> 0
 			);
 		}
