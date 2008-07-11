@@ -2,7 +2,7 @@
 Contributors: vprat
 Donate link: http://enhanced-links.vincentprat.info
 Tags: links, sidebar, navigation
-Requires at least: 2.3
+Requires at least: 2.6
 Tested up to: 2.6
 Stable tag: 4.2.1
 
