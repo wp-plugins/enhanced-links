@@ -50,16 +50,16 @@ jQuery.fn.enhancedLinks = function(args) {
 		if (hasChildren) {
 			if (defaults.contractChildren==1) {
 				button += '<span class="button is_expanded" style="cursor: pointer;">';
-				button += enhancedCategoriesPlugin.getButtonText(defaults.expandText, defaults.expandImage);
+				button += EnhancedLinksPlugin.getButtonText(defaults.expandText, defaults.expandImage);
 				button += '</span>';
 			} else {
 				button += '<span class="button is_contracted" style="cursor: pointer;">';
-				button += enhancedCategoriesPlugin.getButtonText(defaults.contractText, defaults.contractImage);
+				button += EnhancedLinksPlugin.getButtonText(defaults.contractText, defaults.contractImage);
 				button += '</span>';
 			}
 		} else {
 			button += '<span class="button" style="">';
-			button += enhancedCategoriesPlugin.getButtonText(defaults.leafText, defaults.leafImage);
+			button += EnhancedLinksPlugin.getButtonText(defaults.leafText, defaults.leafImage);
 			button += '</span>';
 		}
 		
@@ -95,12 +95,12 @@ jQuery.fn.enhancedLinks = function(args) {
 								.each(function() {
 									if (jQuery(this).hasClass('is_expanded')) {
 										jQuery(this)
-											.html(enhancedCategoriesPlugin.getButtonText(defaults.contractText, defaults.contractImage))
+											.html(EnhancedLinksPlugin.getButtonText(defaults.contractText, defaults.contractImage))
 											.removeClass('is_expanded')
 											.addClass('is_contracted');
 									} else {
 										jQuery(this)
-											.html(enhancedCategoriesPlugin.getButtonText(defaults.expandText, defaults.expandImage))
+											.html(EnhancedLinksPlugin.getButtonText(defaults.expandText, defaults.expandImage))
 											.removeClass('is_contracted')
 											.addClass('is_expanded');
 									}
